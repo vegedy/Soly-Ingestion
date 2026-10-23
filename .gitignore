@@ -21,3 +21,6 @@ build/
 dist/
 *.egg-info/
 .eggs/
+
+# Isolated lock generation environment
+.venv-lock/
