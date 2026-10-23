@@ -110,9 +110,6 @@ python -m ruff format --check .
 python -m mypy src
 ```
 
-Ein `tests/`-Verzeichnis ist noch nicht angelegt. Bis Tests ergänzt werden,
-beendet sich `python -m pytest` mit Exitcode 5 (keine Tests gefunden).
-
 Zum automatischen Formatieren `python -m ruff format .` verwenden.
 Mit `python -m mypy src tests` können auch die Tests in die Typprüfung
 einbezogen werden.
