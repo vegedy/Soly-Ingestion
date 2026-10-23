@@ -148,3 +148,82 @@ Einzelnen Smoke-Test ausführen:
 ```bash
 python -m pytest tests/test_import.py
 ```
+
+## Linting und Formatierung mit Ruff
+
+Ruff **0.17.2** übernimmt Linting und Formatierung für den Python-Code in
+`src/` und `tests/`. Die zentrale Konfiguration steht in `pyproject.toml`:
+Python 3.12 als Sprachziel, 88 Zeichen als Zielbreite beim Formatieren und
+eine Prüfung der verwendeten Ruff-Version.
+
+Die aktivierten Lint-Regeln prüfen grundlegende Codefehler (`E4`, `E7`, `E9`,
+`F`), die Importsortierung (`I`), moderne Python-Schreibweisen (`UP`) und
+häufige Fehlerquellen (`B`).
+
+Für die gezielte Installation in der aktivierten `.venv`:
+
+```bash
+python -m pip install "ruff==0.17.2"
+```
+
+Bei Installation mit `python -m pip install -e ".[dev]"` ist Ruff bereits
+enthalten.
+
+Aus dem Service-Verzeichnis prüfen, ohne den Quellcode zu verändern:
+
+```bash
+python -m ruff check .
+python -m ruff format --check .
+```
+
+Beide Befehle berücksichtigen Quellcode und Tests. Die `.venv` sowie die in
+`.gitignore` ausgeschlossenen Artefakte werden bei der Verzeichnissuche
+übersprungen.
+
+Automatisch korrigierbare Lint-Probleme beheben und anschließend formatieren:
+
+```bash
+python -m ruff check --fix .
+python -m ruff format .
+```
+
+Diese beiden Befehle ändern Dateien. Die Änderungen vor dem Commit prüfen;
+verbleibende Lint-Meldungen müssen manuell behoben werden. Die Importsortierung
+übernimmt `ruff check --fix`, die Formatierung übernimmt `ruff format`.
+
+## Statische Typprüfung mit mypy
+
+mypy **2.4.0** prüft Typangaben im Python-Code. Die Konfiguration steht in
+`pyproject.toml`: Python 3.12 als Sprachziel, `strict = true` und die
+Prüfverzeichnisse `src/` sowie `tests/`. Der strenge Modus verlangt unter
+anderem Typangaben für Funktionsparameter und Rückgabewerte und meldet
+inkompatible Typen.
+
+Für die gezielte Installation in der aktivierten `.venv`:
+
+```bash
+python -m pip install "mypy==2.4.0"
+```
+
+Bei Installation mit `python -m pip install -e ".[dev]"` ist mypy bereits
+enthalten.
+
+Aus dem Service-Verzeichnis Quellcode und Tests gemeinsam prüfen:
+
+```bash
+python -m mypy
+```
+
+Ohne Pfadangaben verwendet mypy die in `pyproject.toml` eingetragenen
+Verzeichnisse. Explizite Pfadangaben ersetzen diese Auswahl für den jeweiligen
+Aufruf:
+
+```bash
+python -m mypy src
+python -m mypy src tests
+```
+
+Der erste Befehl prüft nur den Quellcode, der zweite Quellcode und Tests.
+mypy ändert keine Quelldateien. Sein Cache unter `.mypy_cache/` ist über
+`.gitignore` ausgeschlossen. Die Typprüfung ergänzt die Tests mit pytest;
+sie führt den Anwendungscode nicht aus.
