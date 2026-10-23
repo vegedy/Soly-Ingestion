@@ -18,9 +18,9 @@ def main() -> None:
     if not package_path.is_relative_to(site_packages):
         raise RuntimeError(f"Package imported outside site-packages: {package_path}")
     kafka = import_module("confluent_kafka")
-    if version("confluent-kafka") != "2.16.0":
+    if version("confluent-kafka") != "2.16.0" or kafka.__version__ != "2.16.0":
         raise RuntimeError("Expected confluent-kafka 2.16.0")
-    print(f"confluent-kafka {kafka.version()[0]}, librdkafka {kafka.libversion()[0]}")
+    print(f"confluent-kafka {kafka.__version__}, librdkafka {kafka.libversion()}")
     print(f"Python {sys.version.split()[0]}")
     print(f"soly-ingestion {version('soly-ingestion')}: {package_path}")
 
