@@ -171,3 +171,27 @@ oder schreibgeschützt eingebundene Secret-Dateien übergeben. Die konkreten
 Variablennamen und Dateipfade werden mit den Adaptern definiert; dieses Image
 liest sie noch nicht. Secrets dürfen weder in Docker-Buildargumente noch in
 Paketdateien aufgenommen werden.
+
+
+## Unterstützter Ereignisvertrag
+
+Dieser Service unterstützt **Soly event contract v1**.
+
+Prüft Rohereignisse und Sensorzuordnung, ergänzt die vertrauenswürdige Anlagenkennung, normalisiert die Zeitdarstellung und erzeugt Kafka-Messungen sowie Ticks.
+Diese Rolle beschreibt die vorgesehene Schnittstelle; die fachliche
+Service-Implementierung und Laufzeitvalidierung folgen in eigenen Issues.
+
+Die [maßgebliche Spezifikation](https://github.com/vegedy/Soly/blob/abd467e82f1bf57279ae3c14a01a765389daad90/docs/data-contract.md)
+ist auf einen unveränderlichen, veröffentlichten Hauptrepo-Commit festgeschrieben.
+[contracts/v1/](contracts/v1/) enthält eine identische lokale Kopie aller Schemata,
+des Sensorkatalogs und der synthetischen Beispiele. Der eigenständige Checkout
+benötigt dafür weder das Hauptrepo noch benachbarte Services.
+[contracts/provenance.json](contracts/provenance.json) nennt unterstützte Version,
+Herkunftsrepository, vollständigen Commit und SHA-256-Prüfsummen aller Dateien.
+Es gibt keine Schema-Downloads beim Start und keine Laufzeitimporte aus Submodulen.
+
+Veröffentlichte v1-Artefakte bleiben unverändert. Änderungen am Vertragsverhalten
+benötigen eine neue Version; unbekannte Versionen werden künftig ausdrücklich
+abgelehnt. Eine Vertragsaktualisierung übernimmt alle Artefakte und das
+Herkunftsmanifest gemeinsam und wird mit den zentralen Vertragsprüfungen geprüft.
+Der abschließende Hauptrepo-CI-Lauf kontrolliert die Kopie und ihre Herkunft.
