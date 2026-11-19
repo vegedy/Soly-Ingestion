@@ -7,7 +7,7 @@ name = "soly-ingestion"
 version = "0.1.0"
 description = "Aufnahme von Live- und Replay-Sensordaten und Weiterleitung an Kafka für Soly"
 readme = "README.md"
-requires-python = "==3.12.15"
+requires-python = ">=3.12,<3.13"
 license = "MIT"
 license-files = ["LICENSE"]
 dependencies = [
